@@ -1,0 +1,9 @@
+# [defaults] 
+# Mysql_user = False
+# Mysql_ rssword = False
+# Redis_auth_password = False
+
+[hosts]
+srv-example-web1  ansible_ssh_host=172.31.16.142 ansible_ssh_port=22
+srv-example-web2  ansible_ssh_host=172.31.16.142 ansible_ssh_port=22
+srv-example-web3  ansible_ssh_host=172.31.16.142 ansible_ssh_port=22
