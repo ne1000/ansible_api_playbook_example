@@ -20,8 +20,7 @@ except ImportError:
     from ordereddict import OrderedDict
 
 # nc_inv = OrderedDict() 
-nc_inv = {'colynn-test1': {'ansible_ssh_host': '172.31.16.142', 'ansible_ssh_port': '22'}}
-
+nc_inv = {'colynn-test1': {'ansible_ssh_host': '172.31.16.142', 'ansible_ssh_port': '22'}, 'colynn-test2': {'ansible_ssh_host': '172.31.16.142', 'ansible_ssh_port': '22'}}
 
 def Usage():
     print "Usage:  %s --list" % sys.argv[0]

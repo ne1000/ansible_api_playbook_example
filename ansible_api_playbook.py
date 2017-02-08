@@ -10,28 +10,10 @@ from ansible.vars import VariableManager
 from ansible.inventory import Inventory
 from ansible.executor.playbook_executor import PlaybookExecutor
 
-
-## ResultCallback
+# Callback
 from ansible import constants as C
-from ansible.plugins.callback import CallbackBase
-import json
-class ResultCallback(CallbackBase):
-    """A sample callback plugin used for performing an action as results come in
-
-    If you want to collect all results into a single object for processing at
-    the end of the execution, look into utilizing the ``json`` callback plugin
-    or writing your own custom callback plugin
-    """
-    def v2_runner_on_ok(self, result, **kwargs):
-        """Print a json representation of the result
-
-        This method could store the result in an instance attribute for retrieval later
-        """
-        host = result._host
-        print json.dumps({host.name: result._result}, indent=4)
-
-results_callback = ResultCallback()
-##
+from lib.result_json import JsonCallback
+results_callback = JsonCallback()
 
 variable_manager = VariableManager()
 loader = DataLoader()
@@ -59,7 +41,7 @@ variable_manager.extra_vars = {'hosts': 'localhost'}  # This can accomodate vari
 
 passwords = {}
 
-C.DEFAULT_STDOUT_CALLBACK = results_callback
+# C.DEFAULT_STDOUT_CALLBACK = results_callback
 
 pbex = PlaybookExecutor(playbooks=[playbook_path], inventory=inventory, variable_manager=variable_manager,
                         loader=loader, options=options, passwords=passwords)
