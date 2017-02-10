@@ -3,11 +3,14 @@
   serial: 1
   gather_facts: false
   tasks:
-    - name: touch file
+    - fail: msg="Did not defined api token"
+      when: not api_token
+
+    - name: task_1 touch file
       file: path=/tmp/foo.conf state=touch
    
-    - name: sleep 5
+    - name: task_2 sleep 5
       command: sleep 5
 
-    - name: run command
+    - name: task_3 run command
       command: echo "hello" >  /tmp/hello.txt
