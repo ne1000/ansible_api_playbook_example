@@ -1,3 +1,6 @@
 # ansible_api_playbook_example
 ansible 2 api playbook example
-dddddddddd
+
+* lib/inventory-host.py  dynamic-inventory
+* lib/default.py callback
+
