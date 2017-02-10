@@ -42,7 +42,7 @@ options = Options(listtags=False, listtasks=False, listhosts=False, syntax=False
                   become=False, become_method=None, become_user='root', verbosity=None, check=False
                   )
 
-variable_manager.extra_vars = {'hosts': 'localhost', 'api_token': 'apixxxxxxx12333333'}  # This can accomodate various other command line arguments.`
+variable_manager.extra_vars = {'hosts': 'localhost', 'api_token': 'apixxxxxxx12333333', 'password': True}  # This can accomodate various other command line arguments.`
 
 passwords = {}
 

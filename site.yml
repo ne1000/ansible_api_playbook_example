@@ -11,6 +11,7 @@
    
     - name: task_2 sleep 5
       command: sleep 5
+      when: password|bool
 
     - name: task_3 run command
       command: echo "hello" >  /tmp/hello.txt
