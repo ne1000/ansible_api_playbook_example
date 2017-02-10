@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-# stolen from http://stackoverflow.com/questions/27590039/running-ansible-playbook-using-python-api
+# Refer to from http://stackoverflow.com/questions/27590039/running-ansible-playbook-using-python-api
 
 import os
 import sys
@@ -13,12 +13,14 @@ from ansible.executor.playbook_executor import PlaybookExecutor
 # Callback
 from ansible import constants as C
 from lib.result_json import JsonCallback
-results_callback = JsonCallback()
+from lib.default import DefaultCallback
+results_callback = DefaultCallback()
+# results_callback = JsonCallback()
 
 variable_manager = VariableManager()
 loader = DataLoader()
 
-inventory = Inventory(loader=loader, variable_manager=variable_manager,  host_list='inventory-host.py')
+inventory = Inventory(loader=loader, variable_manager=variable_manager,  host_list='lib/inventory-host.py')
 playbook_path = 'site.yml'
 
 if not os.path.exists(playbook_path):
@@ -30,18 +32,21 @@ Options = namedtuple('Options', ['listtags', 'listtasks', 'listhosts', 'syntax',
                                  'ssh_common_args', 'ssh_extra_args', 'sftp_extra_args', 'scp_extra_args',
                                  'become', 'become_method', 'become_user', 'verbosity', 'check']
                      )
-
+# Refer to: ansible/playbook/play_context.py
+# reset the remote_user back to the default if none was specified, to prevent
+# the delegated host from inheriting the original host's setting 
+# So, defined the default remote_user is None.
 options = Options(listtags=False, listtasks=False, listhosts=False, syntax=False, connection='paramiko',
-                  module_path=None, forks=100, remote_user='ncadmin', private_key_file=None,
+                  module_path=None, forks=100, remote_user=None, private_key_file=None,
                   ssh_common_args=None, ssh_extra_args=None, sftp_extra_args=None, scp_extra_args=None,
                   become=False, become_method=None, become_user='root', verbosity=None, check=False
                   )
 
-variable_manager.extra_vars = {'hosts': 'localhost'}  # This can accomodate various other command line arguments.`
+variable_manager.extra_vars = {'hosts': 'localhost', 'api_token': 'apixxxxxxx12333333'}  # This can accomodate various other command line arguments.`
 
 passwords = {}
 
-# C.DEFAULT_STDOUT_CALLBACK = results_callback
+C.DEFAULT_STDOUT_CALLBACK = results_callback
 
 pbex = PlaybookExecutor(playbooks=[playbook_path], inventory=inventory, variable_manager=variable_manager,
                         loader=loader, options=options, passwords=passwords)
