@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 # Refer to from http://stackoverflow.com/questions/27590039/running-ansible-playbook-using-python-api
+# 2017-02-17 Colynn Liu
+
 
 import os
 import sys
@@ -36,7 +38,13 @@ Options = namedtuple('Options', ['listtags', 'listtasks', 'listhosts', 'syntax',
 # reset the remote_user back to the default if none was specified, to prevent
 # the delegated host from inheriting the original host's setting 
 # So, defined the default remote_user is None.
-options = Options(listtags=False, listtasks=False, listhosts=False, syntax=False, connection='paramiko',
+
+# when use paramiko connection plugin, theses args(ssh_extra_args, ssh_common_args, ssh_args) will be joined to a string.
+# and default, ssh_args = C.ANSIBLE_SSH_ARGS,
+# so if you want to use paramiko, you need change the defined of 'ssh_common_args','ssh_extra_args'. : ssh_common_args='', ssh_extra_args=''
+# Refer to: plugins/connection/paramiko_ssh.py
+
+options = Options(listtags=False, listtasks=False, listhosts=False, syntax=False, connection='ssh',
                   module_path=None, forks=100, remote_user=None, private_key_file=None,
                   ssh_common_args=None, ssh_extra_args=None, sftp_extra_args=None, scp_extra_args=None,
                   become=False, become_method=None, become_user='root', verbosity=None, check=False
