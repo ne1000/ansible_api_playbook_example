@@ -14,10 +14,8 @@ from ansible.executor.playbook_executor import PlaybookExecutor
 
 # Callback
 from ansible import constants as C
-from lib.result_json import JsonCallback
 from lib.default import DefaultCallback
 results_callback = DefaultCallback()
-# results_callback = JsonCallback()
 
 variable_manager = VariableManager()
 loader = DataLoader()
@@ -54,6 +52,7 @@ variable_manager.extra_vars = {'hosts': 'localhost', 'api_token': 'apixxxxxxx123
 
 passwords = {}
 
+# reset default stdout callback
 C.DEFAULT_STDOUT_CALLBACK = results_callback
 
 pbex = PlaybookExecutor(playbooks=[playbook_path], inventory=inventory, variable_manager=variable_manager,
